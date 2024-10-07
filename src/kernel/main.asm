@@ -1,10 +1,15 @@
-org 0x7c00
+org 0x0
 bits 16
 ;;macros
 %define ENDL 0x0D,0x0A  ;ENDL='\n'
 start:
-    jmp main
 
+    mov si, msg_hello
+    call puts 
+
+.halt
+    cli
+    hlt
 ;
 ;Prints Strings to the Screen
 ;
@@ -36,25 +41,5 @@ puts:
     ret
 
 
-main:
-    ;setup data segments
-    mov ax,0
-    mov dx,ax
-    mov es,ax
-
-    ;setup stack
-    mov ss,ax
-    mov sp,0x7c00
-
-    mov si,msg_hello
-    call puts
-    
-    hlt 
-.halt:
-    jmp .halt
-
 
 msg_hello: db 'Hello world!', ENDL, 0
-
-times 510 -($-$$ ) db 0
-dw 0AA55h
